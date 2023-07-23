@@ -22,8 +22,24 @@ function check(chatid, userid) {
   bot.sendMessage(chatid, 'Just a moment...');
   //bot.sendMessage(msg.chat.id, `Hello, ${msg.chat.first_name}`)
   scrape(userid).then((value) => {
+    let data = JSON.parse(value.stock);
+    console.log(data);
+    if (data.users.length === 0) {
+      bot.sendMessage(
+        chatid,
+        'Error! ' + userid + ': such user not found!',
+      );
+      return;
+    }
+
+    bot.sendMessage(
+      chatid,
+      'This user has streak of ' +
+      data.users[0].streak +
+      ' days',
+    );
+
     try {
-      let data = JSON.parse(value.stock);
       let online =
         data.users[0].streakData.currentStreak.endDate;
 
