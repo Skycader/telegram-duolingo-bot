@@ -23,6 +23,7 @@ function check(chatid, userid) {
   //bot.sendMessage(msg.chat.id, `Hello, ${msg.chat.first_name}`)
   scrape(userid).then((value) => {
     let data = JSON.parse(value.stock);
+    console.log(value.stock);
     console.log(data);
     if (data.users.length === 0) {
       bot.sendMessage(
@@ -42,13 +43,16 @@ function check(chatid, userid) {
     try {
       let online =
         data.users[0].streakData.currentStreak.endDate;
-
       let today = new Date().toISOString().split('T')[0];
+      console.log(online, today);
+
       let result = online === today;
       if (result) {
         bot.sendMessage(
           chatid,
-          userid + ', your family seems to be safe today💚',
+          userid +
+          ', your family seems to be safe today💚' +
+          online,
         );
       } else {
         bot.sendMessage(
